@@ -36,7 +36,7 @@ function runSchema($connection) {
 
 function runImporter($connection, $cb, $printBadData = true) {
     $ordersCSVReader = new CSVReader(CSV_FILE_PATH, ROWS_DELIMITER, false);
-    $stmt = $connection->prepare("INSERT INTO ".TABLE_NAME."(".implode(',', TABLE_COLUMNS).") VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = $connection->prepare("INSERT INTO ".TABLE_NAME."(".implode(',', TABLE_COLUMNS).") VALUES (".implode(",",array_fill(0,count(TABLE_COLUMNS),"?")).")");
     $badData = [];
     foreach($ordersCSVReader->csvToArray() as $data){
         foreach($data as $sub_data) {
